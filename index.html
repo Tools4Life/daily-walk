@@ -123,6 +123,15 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .tchip{flex:none;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:14px;background:var(--surface);box-shadow:var(--cardShadow);font-weight:600;font-size:15px}
 .tchip .tilei{width:30px;height:30px;border-radius:9px}
 
+/* timer and verse */
+.timer{display:flex;flex-direction:column;align-items:center;width:100%;padding:26px 16px 22px;text-align:center;font-family:var(--rd)}
+.timer .tdays{font-weight:800;font-size:22px;color:var(--accentText);letter-spacing:.2px}
+.timer .tclock{font-weight:800;font-size:clamp(54px,17vw,76px);line-height:1.05;letter-spacing:-.5px;font-variant-numeric:tabular-nums;margin-top:4px}
+.timer .tsince{font-family:-apple-system,system-ui,sans-serif;font-size:13px;color:var(--muted);margin-top:8px}
+.verse{margin-top:12px;padding:18px 18px 16px}
+.verse p{margin:0;font-size:19px;line-height:1.55;font-weight:500}
+.verse cite{display:block;font-style:normal;font-family:var(--rd);font-weight:800;font-size:14px;color:var(--accentText);margin-top:10px}
+.setstart{display:flex;gap:8px;align-items:center;margin-top:12px}
 /* calendar */
 .cal{padding:12px 12px 14px}
 .calhead{display:flex;align-items:center;justify-content:space-between;margin:2px 4px 10px}
@@ -144,6 +153,17 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .legend i.f{background:transparent;border:1.5px solid var(--accent)}
 
 /* journal */
+.tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:560px){.tgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tcard{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border-radius:16px;background:var(--surface);box-shadow:var(--cardShadow);text-align:left;min-height:118px}
+.tcard .tilei{width:44px;height:44px;border-radius:13px}
+.tcard .tilei svg{width:22px;height:22px}
+.tcard b{font-family:var(--rd);font-weight:800;font-size:17px;line-height:1.2;overflow-wrap:anywhere}
+.tcard span{font-size:13px;color:var(--muted);margin-top:-6px}
+.tcard.add{background:transparent;box-shadow:none;border:2px dashed var(--track);justify-content:center;align-items:center;color:var(--muted);font-weight:600}
+.tcard:active{transform:scale(.98)}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px 0 4px;border-radius:999px;background:var(--tile);font-size:12px;font-weight:700;color:var(--text);margin-right:6px}
+.tag i{width:16px;height:16px;border-radius:5px;background:var(--fc)}
 .entry{display:block;width:100%;text-align:left;padding:14px 16px;border-bottom:1px solid var(--line)}
 .entry:last-child{border-bottom:0}
 .entry .d{font-size:13px;color:var(--muted);font-weight:600}
@@ -230,13 +250,10 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 <!-- TODAY -->
 <section class="screen on" id="sToday"><div class="wrap">
   <div class="head"><div><div class="dateline" id="tDate"></div><h1 id="tHello">Today</h1></div><button class="round" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
-  <div id="fastCard"></div>
-  <div class="sec">Practices <button data-tab="habits">Edit</button></div>
+  <button class="card timer" id="timer" aria-label="Time on your walk. Tap to set when it began."><span class="tdays" id="tmDays">0 days</span><span class="tclock" id="tmClock">00:00:00</span><span class="tsince" id="tmSince"></span></button>
+  <div class="card verse" id="verse"></div>
+  <div class="sec">Today's habits <button data-tab="habits">Edit</button></div>
   <div class="card" id="tHabits"></div>
-  <div class="sec">Praying for <button data-tab="prayer">See all</button></div>
-  <div class="card" id="tPrayer"></div>
-  <div class="sec">Write <button data-tab="journal">Journal</button></div>
-  <div class="topicstrip" id="tTopics"></div>
 </div></section>
 
 <!-- PRAYER -->
@@ -248,8 +265,8 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 
 <!-- JOURNAL -->
 <section class="screen" id="sJournal"><div class="wrap">
-  <div class="head"><div><h1>Journal</h1><div class="sub" id="jSub"></div></div><button class="round" id="jNewTopic" aria-label="New topic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
-  <div class="card" id="jTopics"></div>
+  <div class="head"><div><h1>Journal</h1><div class="sub" id="jSub"></div></div></div>
+  <div class="tgrid" id="jTopics"></div>
   <div class="sec">Recent</div>
   <div class="card" id="jRecent"></div>
 </div></section>
@@ -261,6 +278,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <div class="sec">Your habits</div>
   <div class="card" id="hList"></div>
   <div class="sec">Fasting</div>
+  <button class="row card" id="startFast" style="margin-bottom:10px"></button>
   <div class="card" style="padding:14px"><div class="lbl" style="margin-top:0">Fast days each week</div><div class="dows" id="fDays"></div><p class="sub" style="margin:10px 4px 0;font-size:13px;color:var(--muted)">On these days, Today asks how your fast went. You can also start a fast on any day from Today.</p></div>
 </div></section>
 
@@ -275,7 +293,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 <!-- topic page -->
 <section class="page" id="pgTopic"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Journal</button><button class="pbtn" id="tpEdit">Edit</button></div></div>
   <div class="wrap"><div class="topichead"><span class="tilei" id="tpTile"></span><div><h1 id="tpName"></h1><div class="sub" id="tpSub" style="color:var(--muted);font-size:14px"></div></div></div>
-  <div class="card" id="tpEntries"></div></div>
+  <button class="btn" id="tpNew" style="margin:0 0 16px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New entry</button><div class="card" id="tpEntries"></div></div>
 </section>
 <!-- writer page -->
 <section class="page" id="pgWrite"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span id="wBack">Back</span></button><div><button class="pbtn" id="wDel" style="color:var(--muted)" hidden>Delete</button> <button class="pbtn" id="wSave">Save</button></div></div></div>
@@ -287,7 +305,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 <section class="page" id="pgSettings"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Today</button></div></div>
   <div class="wrap"><div class="head"><div><h1>Settings</h1></div></div>
   <div class="lbl">Theme</div><div class="seg" id="themeSeg" style="max-width:320px"><button data-t="midnight">Midnight</button><button data-t="sand">Sand</button></div>
-  <div class="lbl">Prayer groups</div><div class="card" style="padding:12px"><div class="pills" id="grpList"></div><div style="display:flex;gap:8px;margin-top:10px"><input class="in2" id="grpNew" placeholder="Add a group" style="padding:9px 12px"><button class="pill" id="grpAdd">Add</button></div></div>
+  <div class="lbl">Walk timer counts from</div><input class="in2" id="stStart" type="datetime-local" step="1" style="max-width:320px"><div class="lbl">Prayer groups</div><div class="card" style="padding:12px"><div class="pills" id="grpList"></div><div style="display:flex;gap:8px;margin-top:10px"><input class="in2" id="grpNew" placeholder="Add a group" style="padding:9px 12px"><button class="pill" id="grpAdd">Add</button></div></div>
   <div class="lbl">Account</div><div class="card"><div class="row"><div class="tx"><b id="acEmail">Not signed in</b><span id="acSync">This device only</span></div></div><button class="row" id="acOut" hidden><div class="tx"><b>Sign out on this device</b></div></button></div>
   <div class="lbl">Backup</div><div class="card"><button class="row" id="bkOut"><div class="tx"><b>Download a backup</b><span>Everything except photos, as a .json file</span></div></button><button class="row" id="bkIn"><div class="tx"><b>Restore a backup</b><span>Replaces what's here</span></div></button></div>
   <input type="file" id="bkFile" accept="application/json,.json" hidden>
@@ -418,7 +436,8 @@ const groups=()=>get("groups",["Family","Church","Work","Others"]);
 const prayers=()=>all("prayer.");
 const topics=()=>all("topic.").sort((a,b)=>(a.order??a.created)-(b.order??b.created));
 const entries=()=>all("entry.");
-function seed(){if(get("seeded",false)||all("topic.").length){put("seeded",true);return}
+function seed(){if(!get("start",null)){const n=new Date();n.setHours(0,0,0,0);put("start",dk(n)+"T00:00:00")}
+  if(get("seeded",false)||all("topic.").length){put("seeded",true);return}
   [["Devotion","yellow","sun"],["Reflections","blue","book"],["Goals","green","target"]].forEach(([n,c,i],x)=>{const id="t"+uid()+x;put("topic."+id,{id,name:n,color:c,icon:i,created:Date.now()+x,order:x})});
   put("seeded",true)}
 
@@ -447,26 +466,57 @@ document.querySelectorAll(".sheet").forEach(s=>swipeToClose(s,{dir:"down",isOpen
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("viewer").classList.contains("on"))return $("viewer").classList.remove("on");if(sheet)return closeSheet();back()});
 
 /* ---------- today ---------- */
+const VERSES=[
+ ["Thy word is a lamp unto my feet, and a light unto my path.","Psalm 119:105"],
+ ["Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.","Proverbs 3:5–6"],
+ ["Abide in me, and I in you. As the branch cannot bear fruit of itself, except it abide in the vine; no more can ye, except ye abide in me.","John 15:4"],
+ ["Be still, and know that I am God.","Psalm 46:10"],
+ ["But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.","Isaiah 40:31"],
+ ["He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?","Micah 6:8"],
+ ["Come unto me, all ye that labour and are heavy laden, and I will give you rest.","Matthew 11:28"],
+ ["The steps of a good man are ordered by the LORD: and he delighteth in his way.","Psalm 37:23"],
+ ["This then is the message which we have heard of him, and declare unto you, that God is light, and in him is no darkness at all.","1 John 1:5"],
+ ["If we walk in the light, as he is in the light, we have fellowship one with another.","1 John 1:7"],
+ ["Walk in the Spirit, and ye shall not fulfil the lust of the flesh.","Galatians 5:16"],
+ ["But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance: against such there is no law.","Galatians 5:22–23"],
+ ["Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.","Isaiah 26:3"],
+ ["It is of the LORD'S mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.","Lamentations 3:22–23"],
+ ["But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.","Matthew 6:33"],
+ ["But thou, when thou prayest, enter into thy closet, and when thou hast shut thy door, pray to thy Father which is in secret.","Matthew 6:6"],
+ ["He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.","Psalm 91:1"],
+ ["Create in me a clean heart, O God; and renew a right spirit within me.","Psalm 51:10"],
+ ["Search me, O God, and know my heart: try me, and know my thoughts.","Psalm 139:23"],
+ ["Whatsoever ye do, do it heartily, as to the Lord, and not unto men.","Colossians 3:23"],
+ ["Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.","Philippians 4:6"],
+ ["And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.","Philippians 4:7"],
+ ["Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.","2 Corinthians 5:17"],
+ ["My grace is sufficient for thee: for my strength is made perfect in weakness.","2 Corinthians 12:9"],
+ ["Draw nigh to God, and he will draw nigh to you.","James 4:8"],
+ ["As the Father hath loved me, so have I loved you: continue ye in my love.","John 15:9"],
+ ["The LORD is my shepherd; I shall not want.","Psalm 23:1"],
+ ["This is the day which the LORD hath made; we will rejoice and be glad in it.","Psalm 118:24"],
+ ["Rejoice evermore. Pray without ceasing. In every thing give thanks.","1 Thessalonians 5:16–18"],
+ ["Let us run with patience the race that is set before us, looking unto Jesus the author and finisher of our faith.","Hebrews 12:1–2"]];
+const startMs=()=>{const s=get("start",null),t=s?new Date(s).getTime():NaN;return isNaN(t)?null:t};
+function tick(){const s=startMs();if(!s){$("tmDays").textContent="Your walk";$("tmClock").textContent="00:00:00";$("tmSince").textContent="Tap to set when it began";return}
+  let t=Math.max(0,Math.floor((Date.now()-s)/1000));const d=Math.floor(t/86400);t-=d*86400;
+  $("tmDays").textContent=`${d} ${d===1?"day":"days"}`;$("tmClock").textContent=`${z(Math.floor(t/3600))}:${z(Math.floor(t%3600/60))}:${z(t%60)}`;
+  $("tmSince").textContent="since "+new Date(s).toLocaleDateString([],{month:"long",day:"numeric",year:"numeric"})}
+setInterval(()=>{if(!document.hidden&&tab==="today")tick()},1000);
+$("timer").onclick=()=>openPage("pgSettings",()=>{rSettings();setTimeout(()=>$("stStart").focus(),400)});
 function rToday(){
-  const now=new Date(),k=dk(now),dow=now.getDay(),rec=dayRec(k),h=new Date().getHours();
-  $("tDate").textContent=fmtLong(now);$("tHello").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
-  const isFast=fastDays().includes(dow)||rec.fastOn;
-  $("fastCard").innerHTML=isFast?`<div class="card hero" style="margin-bottom:4px"><div class="big">Fasting today</div><div class="small">${rec.fast==="day"?"Kept. Well done, keep it humbly.":rec.fast==="am"?"Morning kept. Keep going.":"Mark it as you go."}</div><div class="fastbtns"><button data-f="am" aria-pressed="${rec.fast==="am"||rec.fast==="day"}">Morning kept</button><button data-f="day" aria-pressed="${rec.fast==="day"}">Whole day kept</button></div></div>`
-    :`<button class="row card" id="startFast" style="margin-bottom:4px">${tile("gray","drop","plain")}<div class="tx"><b>Start a fast today</b><span>For a day not on your fast schedule</span></div>${CHEV}</button>`;
-  $("fastCard").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const r=dayRec(k),f=b.dataset.f;r.fast=f==="am"?(r.fast?null:"am"):(r.fast==="day"?"am":"day");put("day."+k,r);rToday()});
-  if($("startFast"))$("startFast").onclick=()=>{const r=dayRec(k);r.fastOn=true;put("day."+k,r);rToday()};
-  const hs=habits().filter(x=>x.days.includes(dow));
-  $("tHabits").innerHTML=hs.length?hs.map(x=>`<button class="row${rec.h.includes(x.id)?" done":""}" data-h="${esc(x.id)}" aria-pressed="${rec.h.includes(x.id)}">${tile(x.color,x.icon)}<div class="tx"><b>${esc(x.name)}</b></div>${CHECK}</button>`).join("")
-    :`<div class="empty">${habits().length?`Nothing scheduled for ${DOWL[dow]}.`:"Add the daily practices you want to return to, like prayer, Scripture, or no phone before 7."}</div>${habits().length?"":`<button class="row" id="tAddHabit">${tile("yellow","star")}<div class="tx"><b>Add a habit</b></div>${CHEV}</button>`}`;
+  const now=new Date(),k=dk(now),dow=now.getDay(),rec=dayRec(k),h=now.getHours();
+  $("tDate").textContent=fmtLong(now);$("tHello").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";tick();
+  const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/864e5),v=VERSES[doy%VERSES.length];
+  $("verse").innerHTML=`<p>${esc(v[0])}</p><cite>${esc(v[1])}</cite>`;
+  const hs=habits().filter(x=>x.days.includes(dow)),isFast=fastDays().includes(dow)||rec.fastOn;
+  let html=hs.map(x=>`<button class="row${rec.h.includes(x.id)?" done":""}" data-h="${esc(x.id)}" aria-pressed="${rec.h.includes(x.id)}">${tile(x.color,x.icon)}<div class="tx"><b>${esc(x.name)}</b></div>${CHECK}</button>`).join("");
+  if(isFast)html+=`<div class="row"><span class="tilei" style="--fc:var(--accent);color:var(--onAccent)">${ico("drop")}</span><div class="tx"><b>Fasting today</b><span>${rec.fast==="day"?"Whole day kept":rec.fast==="am"?"Morning kept":"Mark it as you go"}</span></div></div><div class="fastbtns" style="padding:0 14px 14px;margin-top:0"><button data-f="am" aria-pressed="${rec.fast==="am"||rec.fast==="day"}">Morning kept</button><button data-f="day" aria-pressed="${rec.fast==="day"}">Whole day kept</button></div>`;
+  if(!hs.length&&!isFast)html=`<div class="empty">${habits().length?`Nothing scheduled for ${DOWL[dow]}.`:"Add the daily practices you want to return to, like prayer, Scripture, or no phone before 7."}</div>${habits().length?"":`<button class="row" id="tAddHabit">${tile("yellow","star")}<div class="tx"><b>Add a habit</b></div>${CHEV}</button>`}`;
+  $("tHabits").innerHTML=html;
   $("tHabits").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>{const r=dayRec(k),id=b.dataset.h;r.h=r.h.includes(id)?r.h.filter(x=>x!==id):[...r.h,id];put("day."+k,r);b.classList.toggle("done",r.h.includes(id));b.setAttribute("aria-pressed",r.h.includes(id));if(r.h.includes(id)&&navigator.vibrate)navigator.vibrate(8)});
+  $("tHabits").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const r=dayRec(k),f=b.dataset.f;r.fast=f==="am"?(r.fast?null:"am"):(r.fast==="day"?"am":"day");put("day."+k,r);rToday()});
   if($("tAddHabit"))$("tAddHabit").onclick=()=>openHabit(null);
-  const open=prayers().filter(p=>!p.answered).sort((a,b)=>b.created-a.created);
-  $("tPrayer").innerHTML=open.length?open.slice(0,4).map(prRow).join("")+(open.length>4?`<button class="row" data-tab2="prayer"><div class="tx"><span>${open.length-4} more</span></div>${CHEV}</button>`:"")
-    :`<div class="empty">No requests yet. Add the people and needs you're carrying.</div><button class="row" id="tAddPr">${tile("rose","heart")}<div class="tx"><b>Add a prayer request</b></div>${CHEV}</button>`;
-  wirePr($("tPrayer"));if($("tAddPr"))$("tAddPr").onclick=()=>openPrayer(null);
-  $("tPrayer").querySelectorAll("[data-tab2]").forEach(b=>b.onclick=()=>go("prayer"));
-  $("tTopics").innerHTML=topics().map(t=>`<button class="tchip" data-t="${esc(t.id)}">${tile(t.color,t.icon)}${esc(t.name)}</button>`).join("");
-  $("tTopics").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>newEntry(b.dataset.t));
 }
 $("gear").onclick=()=>openPage("pgSettings",rSettings);
 
@@ -507,13 +557,13 @@ $("prDel").onclick=()=>{if(!confirm("Delete this prayer request?"))return;drop("
 let curTopic=null,curEntry=null,wPhotos=[];
 function rJournal(){
   const ts=topics(),es=entries();$("jSub").textContent=`${ts.length} ${ts.length===1?"topic":"topics"}, ${es.length} ${es.length===1?"entry":"entries"}`;
-  $("jTopics").innerHTML=ts.map(t=>{const n=es.filter(e=>e.topic===t.id),last=n.reduce((a,e)=>Math.max(a,e.date),0);return `<button class="row" data-t="${esc(t.id)}">${tile(t.color,t.icon)}<div class="tx"><b>${esc(t.name)}</b><span>${n.length} ${n.length===1?"entry":"entries"}${last?", last "+ago(last):""}</span></div>${CHEV}</button>`}).join("")||`<div class="empty">No topics yet. Tap + to start one.</div>`;
-  $("jTopics").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>openTopic(b.dataset.t));
-  const rec=es.sort((a,b)=>b.date-a.date).slice(0,5);
-  $("jRecent").innerHTML=rec.map(entryRow).join("")||`<div class="empty">Your latest entries will show here.</div>`;wireEntries($("jRecent"));
+  $("jTopics").innerHTML=ts.map(t=>{const n=es.filter(e=>e.topic===t.id).length;return `<button class="tcard" data-t="${esc(t.id)}">${tile(t.color,t.icon)}<b>${esc(t.name)}</b><span>${n} ${n===1?"entry":"entries"}</span></button>`}).join("")+`<button class="tcard add" id="jAddTopic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New topic</button>`;
+  $("jTopics").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>openTopic(b.dataset.t));$("jAddTopic").onclick=()=>openTopicSheet(null);
+  const rec=es.sort((a,b)=>b.date-a.date).slice(0,8);
+  $("jRecent").innerHTML=rec.map(e=>entryRow(e)).join("")||`<div class="empty">Your latest entries will show here.</div>`;wireEntries($("jRecent"));
 }
 const topicOf=id=>get("topic."+id,null)||{name:"Journal",color:"gray",icon:"book"};
-function entryRow(e,showTopic=true){const t=topicOf(e.topic);return `<button class="entry" data-e="${esc(e.id)}"><div class="d">${showTopic?esc(t.name)+" · ":""}${esc(fmtDay(e.date))}</div>${e.text?`<div class="p">${esc(e.text)}</div>`:""}${(e.photos||[]).length?`<div class="thumbs">${e.photos.slice(0,4).map(p=>`<img data-ph="${esc(p)}" alt="">`).join("")}</div>`:""}</button>`}
+function entryRow(e,showTopic=true){const t=topicOf(e.topic);return `<button class="entry" data-e="${esc(e.id)}"><div class="d">${showTopic?`<span class="tag"><i style="--fc:var(--t-${t.color})"></i>${esc(t.name)}</span>`:""}${esc(fmtDay(e.date))}</div>${e.text?`<div class="p">${esc(e.text)}</div>`:""}${(e.photos||[]).length?`<div class="thumbs">${e.photos.slice(0,4).map(p=>`<img data-ph="${esc(p)}" alt="">`).join("")}</div>`:""}</button>`}
 function wireEntries(el){el.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>openEntry(b.dataset.e));loadThumbs(el)}
 function openTopic(id){curTopic=id;openPage("pgTopic",rTopic)}
 function rTopic(){const t=get("topic."+curTopic,null);if(!t)return back();
@@ -522,6 +572,7 @@ function rTopic(){const t=get("topic."+curTopic,null);if(!t)return back();
   $("tpEntries").innerHTML=es.map(e=>entryRow(e,false)).join("")||`<div class="empty">Nothing here yet. Tap Entry to write the first one.</div>`;wireEntries($("tpEntries"))}
 $("pgTopic").onReturn=rTopic;
 $("tpEdit").onclick=()=>openTopicSheet(curTopic);
+$("tpNew").onclick=()=>newEntry(curTopic);
 function newEntry(topicId,withPhoto){curEntry=null;curTopic=topicId||(topics()[0]||{}).id;if(!curTopic){openTopicSheet(null);return}
   wPhotos=[];closeSheet(true);openPage("pgWrite",fillWriter);if(withPhoto)setTimeout(()=>$("photoIn").click(),360);else setTimeout(()=>$("writer").focus(),360)}
 function openEntry(id){const e=get("entry."+id,null);if(!e)return;curEntry=id;curTopic=e.topic;wPhotos=[...(e.photos||[])];openPage("pgWrite",fillWriter)}
@@ -554,7 +605,6 @@ function drawPick(cId,iId,gc,sc,gi,si){$(cId).innerHTML=COLORS.map(c=>`<button d
   $(cId).querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{sc(b.dataset.c);drawPick(cId,iId,gc,sc,gi,si)});
   $(iId).innerHTML=Object.keys(IC).map(k=>`<button data-i="${k}" aria-label="${k}" aria-pressed="${k===gi()}">${ico(k)}</button>`).join("");
   $(iId).querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{si(b.dataset.i);drawPick(cId,iId,gc,sc,gi,si)})}
-$("jNewTopic").onclick=()=>openTopicSheet(null);
 $("toSave").onclick=()=>{const n=$("toName").value.trim();if(!n){$("toName").focus();return toast("Give the topic a name.")}
   const t=toId?get("topic."+toId,{}):{id:uid(),created:Date.now(),order:topics().length};t.name=n;t.color=toColor;t.icon=toIcon;put("topic."+t.id,t);closeSheet()};
 $("toDel").onclick=()=>{const es=entries().filter(e=>e.topic===toId);if(!confirm(`Delete this topic and its ${es.length} ${es.length===1?"entry":"entries"}? This can't be undone.`))return;
@@ -577,6 +627,8 @@ function calendar(el,month,filterId){const y=month.getFullYear(),m=month.getMont
   h+=`</div><div class="legend"><span><i></i>${filterId?"Kept":"A habit kept"}</span>${filterId?"":'<span><i class="f"></i>Fasted</span>'}</div>`;
   el.innerHTML=h;el.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{month.setMonth(month.getMonth()+(+b.dataset.m));calendar(el,month,filterId)})}
 function rHabits(){calendar($("hCal"),calM);
+  {const k=dk(new Date()),r=dayRec(k),sched=fastDays().includes(new Date().getDay());$("startFast").innerHTML=`${tile("gray","drop","plain")}<div class="tx"><b>${sched?"Today is a fast day":r.fastOn?"Fasting today":"Start a fast today"}</b><span>${sched?"Mark it from Today":r.fastOn?"Tap to cancel today's fast":"For a day not on your fast schedule"}</span></div>`;
+   $("startFast").onclick=()=>{if(sched)return go("today");const r2=dayRec(k);r2.fastOn=!r2.fastOn;if(!r2.fastOn)r2.fast=null;put("day."+k,r2);toast(r2.fastOn?"Fast started. It shows on Today.":"Today's fast removed.");rHabits()}}
   const hs=habits();$("hList").innerHTML=hs.map(x=>`<button class="row" data-h="${esc(x.id)}">${tile(x.color,x.icon)}<div class="tx"><b>${esc(x.name)}</b><span>${x.days.length===7?"Every day":x.days.length?x.days.map(d=>DOWL[d].slice(0,3)).join(", "):"No days set"}</span></div>${CHEV}</button>`).join("")||`<div class="empty">No habits yet. Tap + to add your first.</div>`;
   $("hList").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>openHabit(b.dataset.h));
   $("fDays").innerHTML=DOW.map((l,i)=>`<button data-d="${i}" aria-pressed="${fastDays().includes(i)}" aria-label="${DOWL[i]}">${l}</button>`).join("");
@@ -593,7 +645,8 @@ $("haDel").onclick=()=>{if(!confirm("Delete this habit? Days you kept it stay in
 /* ---------- settings ---------- */
 function applyTheme(){const t=get("theme","midnight")==="sand"?"sand":"midnight";document.documentElement.dataset.theme=t;$("themeColor").setAttribute("content",t==="sand"?"#F1ECE2":"#18191B");document.querySelectorAll("#themeSeg [data-t]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===t))}
 document.querySelectorAll("#themeSeg [data-t]").forEach(b=>b.onclick=()=>{put("theme",b.dataset.t);applyTheme()});
-function rSettings(){applyTheme();drawGrpList();window.WalkUI&&WalkUI.account()}
+$("stStart").onchange=e=>{if(e.target.value&&!isNaN(new Date(e.target.value))){put("start",e.target.value);toast("Timer updated.")}};
+function rSettings(){applyTheme();{const s=startMs();if(s){const d=new Date(s);$("stStart").value=`${dk(d)}T${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`}}drawGrpList();window.WalkUI&&WalkUI.account()}
 function drawGrpList(){$("grpList").innerHTML=groups().map(g=>`<button class="pill" data-g="${esc(g)}" aria-label="Remove ${esc(g)}">${esc(g)} ×</button>`).join("");$("grpList").querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{const g=b.dataset.g;if(groups().length<2)return toast("Keep at least one group.");if(!confirm(`Remove the “${g}” group? Its requests move to the first group.`))return;const gs=groups().filter(x=>x!==g);put("groups",gs);prayers().filter(p=>p.group===g).forEach(p=>{p.group=gs[0];put("prayer."+p.id,p)});drawGrpList()})}
 $("grpAdd").onclick=()=>{const v=$("grpNew").value.trim();if(!v)return;if(groups().includes(v))return toast("That group already exists.");put("groups",[...groups(),v]);$("grpNew").value="";drawGrpList()};
 $("bkOut").onclick=async()=>{const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf(K)===0)data[k]=localStorage.getItem(k)}
