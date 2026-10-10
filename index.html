@@ -156,6 +156,14 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .bar{height:6px;border-radius:3px;background:var(--track);overflow:hidden;margin-top:8px}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
 .row .pct{font-family:var(--rd);font-weight:800;font-size:17px;font-variant-numeric:tabular-nums;color:var(--accentText);flex:none;text-align:right;min-width:44px}
+.weeks{padding:14px 14px 12px}
+.wrow{display:grid;grid-template-columns:64px repeat(7,minmax(0,1fr)) 44px;gap:6px;align-items:center;margin-bottom:6px}
+.wrow .l{font-size:12px;color:var(--muted);font-weight:600}
+.wrow .c{height:22px;border-radius:6px;background:var(--tile)}
+.wrow .c.k{background:var(--accent)}
+.wrow .c.n{background:transparent;border:1.5px dashed var(--track)}
+.wrow .p{font-family:var(--rd);font-weight:800;font-size:13px;text-align:right;color:var(--accentText)}
+.wrow.h .c{height:auto;background:none;border:0;font-size:11px;color:var(--muted);font-weight:700;text-align:center}
 /* journal */
 .tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (min-width:560px){.tgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -276,6 +284,12 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <div class="wrap"><div class="topichead"><span class="tilei" id="tpTile"></span><div><h1 id="tpName"></h1><div class="sub" id="tpSub" style="color:var(--muted);font-size:14px"></div></div></div>
   <button class="btn" id="tpNew" style="margin:0 0 16px"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New entry</button><div class="card" id="tpEntries"></div></div>
 </section>
+<!-- habit detail page -->
+<section class="page" id="pgHabit"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Habits</button><button class="pbtn" id="hdEdit">Edit</button></div></div>
+  <div class="wrap"><div class="topichead"><span class="tilei" id="hdTile"></span><div><h1 id="hdName"></h1><div class="sub" id="hdDays" style="color:var(--muted);font-size:14px"></div></div></div>
+  <div class="stats" id="hdStats"></div>
+  <div class="sec">Last 8 weeks</div><div class="card weeks" id="hdWeeks"></div></div>
+</section>
 <!-- writer page -->
 <section class="page" id="pgWrite"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span id="wBack">Back</span></button><div><button class="pbtn" id="wDel" style="color:var(--muted)" hidden>Delete</button> <button class="pbtn" id="wSave">Save</button></div></div></div>
   <div class="wrap"><div class="wmeta"><span class="tilei" id="wTile"></span><b id="wTopic"></b><span id="wDate"></span></div>
@@ -316,7 +330,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <div class="lbl">Days</div><div class="dows" id="haDays"></div>
   <div class="lbl">Color</div><div class="colors" id="haColors"></div>
   <div class="lbl">Icon</div><div class="icons" id="haIcons"></div>
-  <div id="haStatBox" hidden><div class="lbl">Stats</div><div class="stats" id="haStats"></div></div>
+  
   <button class="btn" id="haSave">Save</button><button class="btn warn" id="haDel" hidden>Delete habit</button>
 </div>
 
@@ -578,7 +592,8 @@ function stat(h){const today=mid(new Date()),created=mid(h.created||firstUse()),
   let best=0,run=0,total=0,s30=0,k30=0,sw=0,kw=0;const wk=new Date(today);wk.setDate(wk.getDate()-wk.getDay());
   for(let x=new Date(created);x<=today;x=new Date(x.getTime()+DAY)){const sc=sched(x),k=kept(x);if(k)total++;if(sc){if(k){run++;best=Math.max(best,run)}else if(x<today)run=0}
     if(today-x<30*DAY&&sc&&!(x.getTime()===today.getTime()&&!k)){s30++;if(k)k30++}if(x>=wk&&sc){sw++;if(k)kw++}}
-  return{streak,best,total,pct30:s30?Math.round(k30/s30*100):null,week:[kw,sw]}}
+  let sAll=0,kAll=0;for(let x=new Date(created);x<=today;x=new Date(x.getTime()+DAY)){if(sched(x)&&!(x.getTime()===today.getTime()&&!kept(x))){sAll++;if(kept(x))kAll++}}
+  return{pctAll:sAll?Math.round(kAll/sAll*100):null,streak,best,total,pct30:s30?Math.round(k30/s30*100):null,week:[kw,sw]}}
 function firstUse(){const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("walk.day.")===0)ks.push(k.slice(9))}ks.sort();return ks[0]?new Date(ks[0]+"T00:00:00"):new Date()}
 const statCard=(v,l,pct)=>`<div class="stat"><b>${v}</b><span>${l}</span>${pct!=null?`<div class="bar"><i style="width:${pct}%"></i></div>`:""}</div>`;
 function rHabits(){
@@ -592,16 +607,32 @@ function rHabits(){
     +statCard(avg30==null?"–":`${avg30}<small>%</small>`,"Last 30 days",avg30)
     +statCard(`${bestNow.s}<small> ${bestNow.s===1?"day":"days"}</small>`,bestNow.s?"Best current streak":"Current streak",null):"";
   $("hList").innerHTML=st.map(({h,s})=>`<button class="row" data-h="${esc(h.id)}">${tile(h.color,h.icon)}<div class="tx"><b>${esc(h.name)}</b><span>${s.streak} day streak, best ${s.best}, this week ${s.week[0]}/${s.week[1]}</span></div><span class="pct">${s.pct30==null?"–":s.pct30+"%"}</span></button>`).join("")||`<div class="empty">No habits yet. Tap + to add your first.</div>`;
-  $("hList").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>openHabit(b.dataset.h));
+  $("hList").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>openHabitPage(b.dataset.h));
 }
+let hdId=null;
+function openHabitPage(id){hdId=id;openPage("pgHabit",rHabitPage)}
+function rHabitPage(){const x=habits().find(h=>h.id===hdId);if(!x)return back();const t=stat(x);
+  $("hdTile").outerHTML=`<span class="tilei" id="hdTile" style="--fc:var(--t-${x.color})">${ico(x.icon)}</span>`;$("hdName").textContent=x.name;
+  $("hdDays").textContent=x.days.length===7?"Every day":x.days.map(d=>DOWL[d].slice(0,3)).join(", ");
+  $("hdStats").innerHTML=statCard(`${t.streak}<small> ${t.streak===1?"day":"days"}</small>`,"Current streak",null)+statCard(`${t.best}<small> ${t.best===1?"day":"days"}</small>`,"Best streak",null)
+    +statCard(`${t.week[0]}<small>/${t.week[1]}</small>`,"This week",t.week[1]?Math.round(t.week[0]/t.week[1]*100):0)+statCard(t.pct30==null?"–":`${t.pct30}<small>%</small>`,"Last 30 days",t.pct30)
+    +statCard(t.total,"Times kept",null)+statCard(t.pctAll==null?"–":`${t.pctAll}<small>%</small>`,"All time",t.pctAll);
+  const today=mid(new Date()),created=mid(x.created||firstUse());let h=`<div class="wrow h"><span class="l"></span>${DOW.map(d=>`<span class="c">${d}</span>`).join("")}<span class="p"></span></div>`;
+  for(let w=0;w<8;w++){const s0=new Date(today);s0.setDate(s0.getDate()-s0.getDay()-7*w);let sc=0,kp=0,cells="";
+    for(let i=0;i<7;i++){const d=new Date(s0);d.setDate(d.getDate()+i);const on=x.days.includes(i)&&d>=created&&d<=today,k=dayRec(dk(d)).h.includes(x.id);if(on){sc++;if(k)kp++}
+      cells+=`<span class="c${k?" k":on?"":" n"}" title="${fmtDay(d)}${k?", kept":""}"></span>`}
+    h+=`<div class="wrow"><span class="l">${w===0?"This week":s0.toLocaleDateString([],{month:"short",day:"numeric"})}</span>${cells}<span class="p">${sc?Math.round(kp/sc*100)+"%":"–"}</span></div>`}
+  $("hdWeeks").innerHTML=h}
+$("pgHabit").onReturn=rHabitPage;
+$("hdEdit").onclick=()=>openHabit(hdId);
 let haId=null,haDays=[0,1,2,3,4,5,6],haColor="yellow",haIcon="sun",haM=new Date();
 function openHabit(id){haId=id;const x=id&&habits().find(h=>h.id===id);$("haTitle").textContent=x?"Edit habit":"New habit";$("haName").value=x?x.name:"";haDays=x?[...x.days]:[0,1,2,3,4,5,6];haColor=x?x.color:COLORS[(habits().length+4)%COLORS.length];haIcon=x?x.icon:["sun","book","phone","walk","heart","drop","leaf","moon"][habits().length%8];
-  drawHaDays();drawPick("haColors","haIcons",()=>haColor,c=>haColor=c,()=>haIcon,i=>haIcon=i);$("haDel").hidden=!x;$("haStatBox").hidden=!x;if(x){const t=stat(x);$("haStats").innerHTML=statCard(`${t.streak}<small> ${t.streak===1?"day":"days"}</small>`,"Current streak",null)+statCard(`${t.best}<small> ${t.best===1?"day":"days"}</small>`,"Best streak",null)+statCard(`${t.week[0]}<small>/${t.week[1]}</small>`,"This week",t.week[1]?Math.round(t.week[0]/t.week[1]*100):0)+statCard(t.pct30==null?"–":`${t.pct30}<small>%</small>`,"Last 30 days",t.pct30)+statCard(t.total,"Times kept",null)}
+  drawHaDays();drawPick("haColors","haIcons",()=>haColor,c=>haColor=c,()=>haIcon,i=>haIcon=i);$("haDel").hidden=!x;
   openSheet("shHabit");if(!x)setTimeout(()=>$("haName").focus(),320)}
 function drawHaDays(){$("haDays").innerHTML=DOW.map((l,i)=>`<button data-d="${i}" aria-pressed="${haDays.includes(i)}" aria-label="${DOWL[i]}">${l}</button>`).join("");$("haDays").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{const d=+b.dataset.d;haDays=haDays.includes(d)?haDays.filter(x=>x!==d):[...haDays,d].sort();drawHaDays()})}
 $("hNew").onclick=()=>openHabit(null);
 $("haSave").onclick=()=>{const n=$("haName").value.trim();if(!n){$("haName").focus();return toast("Give the habit a name.")}const hs=habits();let x=hs.find(h=>h.id===haId);if(!x){x={id:uid(),created:Date.now()};hs.push(x)}x.name=n;x.days=haDays;x.color=haColor;x.icon=haIcon;put("habits",hs);closeSheet()};
-$("haDel").onclick=()=>{if(!confirm("Delete this habit? Its history is removed from your stats."))return;put("habits",habits().filter(h=>h.id!==haId));closeSheet()};
+$("haDel").onclick=()=>{if(!confirm("Delete this habit? Its history is removed from your stats."))return;put("habits",habits().filter(h=>h.id!==haId));closeSheet(true);if(stack[stack.length-1]===$("pgHabit"))back();else render()};
 
 /* ---------- settings ---------- */
 function applyTheme(){const t=get("theme","midnight")==="sand"?"sand":"midnight";document.documentElement.dataset.theme=t;$("themeColor").setAttribute("content",t==="sand"?"#F1ECE2":"#18191B");document.querySelectorAll("#themeSeg [data-t]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===t))}
