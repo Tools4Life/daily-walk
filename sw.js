@@ -1,5 +1,5 @@
 // Network first, so updates arrive right away; the saved copy keeps Daily Walk working without signal.
-const CACHE='walk-v2';
+const CACHE='walk-v3';
 const SHELL=['./','index.html','config.js','manifest.json','walk-180.png','walk-192.png','walk-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Daily Walk</title>
-<meta name="description" content="Prayer list, habits and fasting, and a journal by topic.">
+<meta name="description" content="Today's verse and habits, a prayer list, and a journal by topic.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Daily Walk">
@@ -77,9 +77,6 @@ nav.tabs .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:re
 nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border-radius:14px;color:var(--muted);font-size:11px;font-weight:600}
 nav.tabs button svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--accentSoft)}
-.fab{position:fixed;right:max(16px,calc(50% - 304px));bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:31;height:56px;display:flex;align-items:center;gap:8px;padding:0 20px 0 16px;border-radius:999px;background:var(--accent);color:var(--onAccent);font-family:var(--rd);font-weight:800;font-size:17px;box-shadow:0 8px 24px var(--shadow)}
-.fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
-.fab:active{transform:scale(.97)}
 
 /* cards and rows */
 .card{background:var(--surface);border-radius:16px;box-shadow:var(--cardShadow);overflow:hidden}
@@ -115,9 +112,6 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .hero{padding:16px}
 .hero .big{font-family:var(--rd);font-weight:800;font-size:22px;line-height:1.2}
 .hero .small{font-size:14px;color:var(--muted);margin-top:4px}
-.fastbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.fastbtns button{height:44px;border-radius:12px;background:var(--tile);font-weight:600;font-size:14px}
-.fastbtns button[aria-pressed="true"]{background:var(--accent);color:var(--onAccent)}
 .topicstrip{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
 .topicstrip::-webkit-scrollbar{display:none}
 .tchip{flex:none;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:14px;background:var(--surface);box-shadow:var(--cardShadow);font-weight:600;font-size:15px}
@@ -152,6 +146,16 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .legend i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 .legend i.f{background:transparent;border:1.5px solid var(--accent)}
 
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:560px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{background:var(--surface);box-shadow:var(--cardShadow);border-radius:16px;padding:14px}
+.stat b{display:block;font-family:var(--rd);font-weight:800;font-size:30px;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat b small{font-size:16px;color:var(--muted);font-weight:700}
+.stat span{display:block;font-size:13px;color:var(--muted);margin-top:4px;font-weight:600}
+.bar{height:6px;border-radius:3px;background:var(--track);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.row .pct{font-family:var(--rd);font-weight:800;font-size:17px;font-variant-numeric:tabular-nums;color:var(--accentText);flex:none;text-align:right;min-width:44px}
 /* journal */
 .tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (min-width:560px){.tgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -168,8 +172,6 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .entry:last-child{border-bottom:0}
 .entry .d{font-size:13px;color:var(--muted);font-weight:600}
 .entry .p{margin-top:4px;font-size:16px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line;overflow-wrap:anywhere}
-.thumbs{display:flex;gap:6px;margin-top:8px}
-.thumbs img,.thumbs .ph{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--tile)}
 .topichead{display:flex;align-items:center;gap:12px;margin:6px 0 16px}
 .topichead .tilei{width:48px;height:48px;border-radius:14px}
 .topichead .tilei svg{width:24px;height:24px}
@@ -205,10 +207,6 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .dows{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .dows button{height:42px;border-radius:12px;background:var(--tile);font-weight:700;font-size:14px;color:var(--muted)}
 .dows button[aria-pressed="true"]{background:var(--accent);color:var(--onAccent)}
-.addgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.addgrid button{height:86px;border-radius:16px;background:var(--surface);box-shadow:var(--cardShadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:600}
-.addgrid button:first-child{background:var(--accent);color:var(--onAccent)}
-.addgrid svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* writer */
 .writer{display:block;width:100%;min-height:40vh;background:transparent;border:0;outline:none;resize:none;color:var(--text);font-size:18px;line-height:1.6;padding:4px 0}
@@ -217,19 +215,6 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 .wmeta .tilei svg{width:15px;height:15px}
 .wmeta b{font-weight:700}
 .wmeta span{color:var(--muted);font-size:14px}
-.photos{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.photos .p{position:relative;width:92px;height:92px;border-radius:12px;overflow:hidden;background:var(--tile)}
-.photos .p img{width:100%;height:100%;object-fit:cover;display:block}
-.photos .p button{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;font-size:15px;line-height:1}
-.photos .add.first{width:auto;height:44px;padding:0 16px;border-radius:999px;border:0;background:var(--tile);display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600}
-.photos .add.first::after{content:"Add photo"}
-.photos .add.first svg{width:20px;height:20px}
-.photos .add{width:92px;height:92px;border-radius:12px;border:2px dashed var(--track);display:grid;place-items:center;color:var(--muted)}
-.photos .add svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.viewer{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center}
-.viewer.on{display:flex}
-.viewer img{max-width:100%;max-height:100%;object-fit:contain}
-.viewer button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:16px;color:#fff;font-weight:700;padding:10px}
 
 /* sign in, toast */
 .gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
@@ -250,7 +235,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 <!-- TODAY -->
 <section class="screen on" id="sToday"><div class="wrap">
   <div class="head"><div><div class="dateline" id="tDate"></div><h1 id="tHello">Today</h1></div><button class="round" id="gear" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
-  <button class="card timer" id="timer" aria-label="Time on your walk. Tap to set when it began."><span class="tdays" id="tmDays">0 days</span><span class="tclock" id="tmClock">00:00:00</span><span class="tsince" id="tmSince"></span></button>
+  <button class="card timer" id="timer" aria-label="Time on your walk. Tap to set when it began."><span class="tdays" id="tmDays">0 days</span><span class="tclock" id="tmClock">00:00:00</span></button>
   <div class="card verse" id="verse"></div>
   <div class="sec">Today's habits <button data-tab="habits">Edit</button></div>
   <div class="card" id="tHabits"></div>
@@ -258,7 +243,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 
 <!-- PRAYER -->
 <section class="screen" id="sPrayer"><div class="wrap">
-  <div class="head"><div><h1>Prayer</h1><div class="sub" id="pSub"></div></div></div>
+  <div class="head"><div><h1>Prayer</h1><div class="sub" id="pSub"></div></div><button class="round" id="pNew" aria-label="New prayer request"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
   <div class="seg" id="pSeg"><button data-v="open" aria-pressed="true">Praying</button><button data-v="answered" aria-pressed="false">Answered</button></div>
   <div id="pList"></div>
 </div></section>
@@ -273,13 +258,10 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 
 <!-- HABITS -->
 <section class="screen" id="sHabits"><div class="wrap">
-  <div class="head"><div><h1>Habits</h1><div class="sub">Days kept, gently</div></div><button class="round" id="hNew" aria-label="New habit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
-  <div class="card cal" id="hCal"></div>
+  <div class="head"><div><h1>Habits</h1><div class="sub" id="hSub"></div></div><button class="round" id="hNew" aria-label="New habit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
+  <div class="stats" id="hStats"></div>
   <div class="sec">Your habits</div>
   <div class="card" id="hList"></div>
-  <div class="sec">Fasting</div>
-  <button class="row card" id="startFast" style="margin-bottom:10px"></button>
-  <div class="card" style="padding:14px"><div class="lbl" style="margin-top:0">Fast days each week</div><div class="dows" id="fDays"></div><p class="sub" style="margin:10px 4px 0;font-size:13px;color:var(--muted)">On these days, Today asks how your fast went. You can also start a fast on any day from Today.</p></div>
 </div></section>
 
 <nav class="tabs" aria-label="Main"><div class="in">
@@ -288,7 +270,6 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <button data-tab="journal"><svg viewBox="0 0 24 24"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/><path d="M9 7.5h6"/></svg>Journal</button>
   <button data-tab="habits"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg>Habits</button>
 </div></nav>
-<button class="fab" id="fab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span id="fabLbl">New</span></button>
 
 <!-- topic page -->
 <section class="page" id="pgTopic"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Journal</button><button class="pbtn" id="tpEdit">Edit</button></div></div>
@@ -298,8 +279,7 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
 <!-- writer page -->
 <section class="page" id="pgWrite"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span id="wBack">Back</span></button><div><button class="pbtn" id="wDel" style="color:var(--muted)" hidden>Delete</button> <button class="pbtn" id="wSave">Save</button></div></div></div>
   <div class="wrap"><div class="wmeta"><span class="tilei" id="wTile"></span><b id="wTopic"></b><span id="wDate"></span></div>
-  <textarea class="writer" id="writer" placeholder="What is God showing you?"></textarea>
-  <div class="photos" id="wPhotos"></div></div>
+  <textarea class="writer" id="writer" placeholder="What is God showing you?"></textarea></div>
 </section>
 <!-- settings page -->
 <section class="page" id="pgSettings"><div class="pbar"><div class="in"><button class="back" data-back><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Today</button></div></div>
@@ -307,17 +287,12 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <div class="lbl">Theme</div><div class="seg" id="themeSeg" style="max-width:320px"><button data-t="midnight">Midnight</button><button data-t="sand">Sand</button></div>
   <div class="lbl">Walk timer counts from</div><input class="in2" id="stStart" type="datetime-local" step="1" style="max-width:320px"><div class="lbl">Prayer groups</div><div class="card" style="padding:12px"><div class="pills" id="grpList"></div><div style="display:flex;gap:8px;margin-top:10px"><input class="in2" id="grpNew" placeholder="Add a group" style="padding:9px 12px"><button class="pill" id="grpAdd">Add</button></div></div>
   <div class="lbl">Account</div><div class="card"><div class="row"><div class="tx"><b id="acEmail">Not signed in</b><span id="acSync">This device only</span></div></div><button class="row" id="acOut" hidden><div class="tx"><b>Sign out on this device</b></div></button></div>
-  <div class="lbl">Backup</div><div class="card"><button class="row" id="bkOut"><div class="tx"><b>Download a backup</b><span>Everything except photos, as a .json file</span></div></button><button class="row" id="bkIn"><div class="tx"><b>Restore a backup</b><span>Replaces what's here</span></div></button></div>
+  <div class="lbl">Backup</div><div class="card"><button class="row" id="bkOut"><div class="tx"><b>Download a backup</b><span>Everything, as a .json file</span></div></button><button class="row" id="bkIn"><div class="tx"><b>Restore a backup</b><span>Replaces what's here</span></div></button></div>
   <input type="file" id="bkFile" accept="application/json,.json" hidden>
   </div>
 </section>
 
 <div class="scrim" id="scrim"></div>
-<!-- add sheet -->
-<div class="sheet" id="shAdd" role="dialog" aria-label="Add"><span class="grab"></span><h2>Add</h2>
-  <div class="addgrid"><button id="addEntry"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Journal entry</button><button id="addPrayer"><svg viewBox="0 0 24 24"><path d="M12 3c1.5 2.5 4 4.3 4 7.6A4 4 0 0 1 12 15a4 4 0 0 1-4-4.4C8 7.3 10.5 5.5 12 3z"/><path d="M8 21h8"/></svg>Prayer request</button><button id="addPhoto"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6l1.5-2h4l1.5 2"/></svg>Photo entry</button></div>
-  <div class="lbl">Journal in</div><div class="pills" id="addTopics"></div>
-</div>
 <!-- prayer sheet -->
 <div class="sheet" id="shPrayer" role="dialog" aria-label="Prayer request"><span class="grab"></span><h2 id="prTitle">Prayer request</h2>
   <label class="lbl" for="prText">Who or what</label><input class="in2" id="prText" placeholder="e.g. Dad's surgery, wisdom on the Lucas job" autocomplete="off">
@@ -341,12 +316,10 @@ nav.tabs button[aria-current="page"]{color:var(--accentText);background:var(--ac
   <div class="lbl">Days</div><div class="dows" id="haDays"></div>
   <div class="lbl">Color</div><div class="colors" id="haColors"></div>
   <div class="lbl">Icon</div><div class="icons" id="haIcons"></div>
-  <div id="haCalBox" hidden><div class="lbl">Days kept</div><div class="card cal" id="haCal"></div></div>
+  <div id="haStatBox" hidden><div class="lbl">Stats</div><div class="stats" id="haStats"></div></div>
   <button class="btn" id="haSave">Save</button><button class="btn warn" id="haDel" hidden>Delete habit</button>
 </div>
 
-<div class="viewer" id="viewer"><button id="vClose">Close</button><img id="vImg" alt=""></div>
-<input type="file" id="photoIn" accept="image/*" multiple hidden>
 <div class="toast" id="toast" role="status"></div>
 
 <div class="gate" id="gate" hidden><form id="gForm" novalidate>
@@ -430,8 +403,7 @@ const CHECK='<span class="check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4
 
 /* data */
 const habits=()=>get("habits",[]);
-const fastDays=()=>get("fastDays",[]);
-const dayRec=k=>get("day."+k,{h:[],fast:null,fastOn:false});
+const dayRec=k=>get("day."+k,{h:[]});
 const groups=()=>get("groups",["Family","Church","Work","Others"]);
 const prayers=()=>all("prayer.");
 const topics=()=>all("topic.").sort((a,b)=>(a.order??a.created)-(b.order??b.created));
@@ -444,12 +416,10 @@ function seed(){if(!get("start",null)){const n=new Date();n.setHours(0,0,0,0);pu
 /* tabs */
 let tab="today";
 const SCREENS={today:"sToday",prayer:"sPrayer",journal:"sJournal",habits:"sHabits"};
-const FAB={today:"New",prayer:"Request",journal:"Entry",habits:"Habit"};
 function go(t){tab=t;Object.entries(SCREENS).forEach(([k,id])=>$(id).classList.toggle("on",k===t));
   document.querySelectorAll("nav.tabs [data-tab]").forEach(b=>b.setAttribute("aria-current",b.dataset.tab===t?"page":"false"));
-  $("fabLbl").textContent=FAB[t];render();window.scrollTo(0,0)}
+  render();window.scrollTo(0,0)}
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>go(b.dataset.tab));
-$("fab").onclick=()=>{if(tab==="prayer")return openPrayer(null);if(tab==="habits")return openHabit(null);if(tab==="journal"&&curTopic&&false)return;openAdd()};
 function render(){({today:rToday,prayer:rPrayer,journal:rJournal,habits:rHabits})[tab]()}
 
 /* pages & sheets */
@@ -463,7 +433,7 @@ function openSheet(id){closeSheet(true);sheet=$(id);$("scrim").classList.add("on
 function closeSheet(quiet){if(!sheet)return;if(document.activeElement&&sheet.contains(document.activeElement))document.activeElement.blur();sheet.classList.remove("on");$("scrim").classList.remove("on");sheet=null;if(!quiet){if(stack.length){const t=stack[stack.length-1];t.onReturn&&t.onReturn()}else render()}}
 $("scrim").onclick=()=>closeSheet();
 document.querySelectorAll(".sheet").forEach(s=>swipeToClose(s,{dir:"down",isOpen:()=>sheet===s,close:()=>closeSheet()}));
-document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("viewer").classList.contains("on"))return $("viewer").classList.remove("on");if(sheet)return closeSheet();back()});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(sheet)return closeSheet();back()});
 
 /* ---------- today ---------- */
 const VERSES=[
@@ -498,10 +468,9 @@ const VERSES=[
  ["Rejoice evermore. Pray without ceasing. In every thing give thanks.","1 Thessalonians 5:16–18"],
  ["Let us run with patience the race that is set before us, looking unto Jesus the author and finisher of our faith.","Hebrews 12:1–2"]];
 const startMs=()=>{const s=get("start",null),t=s?new Date(s).getTime():NaN;return isNaN(t)?null:t};
-function tick(){const s=startMs();if(!s){$("tmDays").textContent="Your walk";$("tmClock").textContent="00:00:00";$("tmSince").textContent="Tap to set when it began";return}
+function tick(){const s=startMs();if(!s){$("tmDays").textContent="Your walk";$("tmClock").textContent="00:00:00";return}
   let t=Math.max(0,Math.floor((Date.now()-s)/1000));const d=Math.floor(t/86400);t-=d*86400;
-  $("tmDays").textContent=`${d} ${d===1?"day":"days"}`;$("tmClock").textContent=`${z(Math.floor(t/3600))}:${z(Math.floor(t%3600/60))}:${z(t%60)}`;
-  $("tmSince").textContent="since "+new Date(s).toLocaleDateString([],{month:"long",day:"numeric",year:"numeric"})}
+  $("tmDays").textContent=`${d} ${d===1?"day":"days"}`;$("tmClock").textContent=`${z(Math.floor(t/3600))}:${z(Math.floor(t%3600/60))}:${z(t%60)}`}
 setInterval(()=>{if(!document.hidden&&tab==="today")tick()},1000);
 $("timer").onclick=()=>openPage("pgSettings",()=>{rSettings();setTimeout(()=>$("stStart").focus(),400)});
 function rToday(){
@@ -509,13 +478,11 @@ function rToday(){
   $("tDate").textContent=fmtLong(now);$("tHello").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";tick();
   const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/864e5),v=VERSES[doy%VERSES.length];
   $("verse").innerHTML=`<p>${esc(v[0])}</p><cite>${esc(v[1])}</cite>`;
-  const hs=habits().filter(x=>x.days.includes(dow)),isFast=fastDays().includes(dow)||rec.fastOn;
+  const hs=habits().filter(x=>x.days.includes(dow));
   let html=hs.map(x=>`<button class="row${rec.h.includes(x.id)?" done":""}" data-h="${esc(x.id)}" aria-pressed="${rec.h.includes(x.id)}">${tile(x.color,x.icon)}<div class="tx"><b>${esc(x.name)}</b></div>${CHECK}</button>`).join("");
-  if(isFast)html+=`<div class="row"><span class="tilei" style="--fc:var(--accent);color:var(--onAccent)">${ico("drop")}</span><div class="tx"><b>Fasting today</b><span>${rec.fast==="day"?"Whole day kept":rec.fast==="am"?"Morning kept":"Mark it as you go"}</span></div></div><div class="fastbtns" style="padding:0 14px 14px;margin-top:0"><button data-f="am" aria-pressed="${rec.fast==="am"||rec.fast==="day"}">Morning kept</button><button data-f="day" aria-pressed="${rec.fast==="day"}">Whole day kept</button></div>`;
-  if(!hs.length&&!isFast)html=`<div class="empty">${habits().length?`Nothing scheduled for ${DOWL[dow]}.`:"Add the daily practices you want to return to, like prayer, Scripture, or no phone before 7."}</div>${habits().length?"":`<button class="row" id="tAddHabit">${tile("yellow","star")}<div class="tx"><b>Add a habit</b></div>${CHEV}</button>`}`;
+  if(!hs.length)html=`<div class="empty">${habits().length?`Nothing scheduled for ${DOWL[dow]}.`:"Add the daily practices you want to return to, like prayer, Scripture, or no phone before 7."}</div>${habits().length?"":`<button class="row" id="tAddHabit">${tile("yellow","star")}<div class="tx"><b>Add a habit</b></div>${CHEV}</button>`}`;
   $("tHabits").innerHTML=html;
   $("tHabits").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>{const r=dayRec(k),id=b.dataset.h;r.h=r.h.includes(id)?r.h.filter(x=>x!==id):[...r.h,id];put("day."+k,r);b.classList.toggle("done",r.h.includes(id));b.setAttribute("aria-pressed",r.h.includes(id));if(r.h.includes(id)&&navigator.vibrate)navigator.vibrate(8)});
-  $("tHabits").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{const r=dayRec(k),f=b.dataset.f;r.fast=f==="am"?(r.fast?null:"am"):(r.fast==="day"?"am":"day");put("day."+k,r);rToday()});
   if($("tAddHabit"))$("tAddHabit").onclick=()=>openHabit(null);
 }
 $("gear").onclick=()=>openPage("pgSettings",rSettings);
@@ -525,6 +492,7 @@ let pView="open";
 const prRow=p=>{const g=groups().indexOf(p.group),col=["rose","blue","teal","purple","orange","indigo","yellow","brown"][(g<0?7:g)%8];
   return `<button class="row" data-p="${esc(p.id)}">${tile(col,p.answered?"star":"heart")}<div class="tx"><b>${esc(p.text)}</b><span>${p.answered?`Answered ${fmtDay(p.answered.date)}${p.answered.note?": "+esc(p.answered.note):""}`:`${esc(p.group||"Others")} · since ${fmtDay(p.created)}`}</span></div>${CHEV}</button>`};
 const wirePr=el=>el.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>openPrayer(b.dataset.p));
+$("pNew").onclick=()=>openPrayer(null);
 document.querySelectorAll("#pSeg [data-v]").forEach(b=>b.onclick=()=>{pView=b.dataset.v;rPrayer()});
 function rPrayer(){
   document.querySelectorAll("#pSeg [data-v]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===pView));
@@ -554,7 +522,7 @@ $("prAnswer").onclick=()=>{if(savePrayer(p=>{p.answered=p.answered?null:{date:Da
 $("prDel").onclick=()=>{if(!confirm("Delete this prayer request?"))return;drop("prayer."+prId);closeSheet()};
 
 /* ---------- journal ---------- */
-let curTopic=null,curEntry=null,wPhotos=[];
+let curTopic=null,curEntry=null;
 function rJournal(){
   const ts=topics(),es=entries();$("jSub").textContent=`${ts.length} ${ts.length===1?"topic":"topics"}, ${es.length} ${es.length===1?"entry":"entries"}`;
   $("jTopics").innerHTML=ts.map(t=>{const n=es.filter(e=>e.topic===t.id).length;return `<button class="tcard" data-t="${esc(t.id)}">${tile(t.color,t.icon)}<b>${esc(t.name)}</b><span>${n} ${n===1?"entry":"entries"}</span></button>`}).join("")+`<button class="tcard add" id="jAddTopic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New topic</button>`;
@@ -563,8 +531,8 @@ function rJournal(){
   $("jRecent").innerHTML=rec.map(e=>entryRow(e)).join("")||`<div class="empty">Your latest entries will show here.</div>`;wireEntries($("jRecent"));
 }
 const topicOf=id=>get("topic."+id,null)||{name:"Journal",color:"gray",icon:"book"};
-function entryRow(e,showTopic=true){const t=topicOf(e.topic);return `<button class="entry" data-e="${esc(e.id)}"><div class="d">${showTopic?`<span class="tag"><i style="--fc:var(--t-${t.color})"></i>${esc(t.name)}</span>`:""}${esc(fmtDay(e.date))}</div>${e.text?`<div class="p">${esc(e.text)}</div>`:""}${(e.photos||[]).length?`<div class="thumbs">${e.photos.slice(0,4).map(p=>`<img data-ph="${esc(p)}" alt="">`).join("")}</div>`:""}</button>`}
-function wireEntries(el){el.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>openEntry(b.dataset.e));loadThumbs(el)}
+function entryRow(e,showTopic=true){const t=topicOf(e.topic);return `<button class="entry" data-e="${esc(e.id)}"><div class="d">${showTopic?`<span class="tag"><i style="--fc:var(--t-${t.color})"></i>${esc(t.name)}</span>`:""}${esc(fmtDay(e.date))}</div>${e.text?`<div class="p">${esc(e.text)}</div>`:""}</button>`}
+function wireEntries(el){el.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>openEntry(b.dataset.e))}
 function openTopic(id){curTopic=id;openPage("pgTopic",rTopic)}
 function rTopic(){const t=get("topic."+curTopic,null);if(!t)return back();
   $("tpTile").outerHTML=`<span class="tilei" id="tpTile" style="--fc:var(--t-${t.color})">${ico(t.icon)}</span>`;$("tpName").textContent=t.name;
@@ -573,30 +541,19 @@ function rTopic(){const t=get("topic."+curTopic,null);if(!t)return back();
 $("pgTopic").onReturn=rTopic;
 $("tpEdit").onclick=()=>openTopicSheet(curTopic);
 $("tpNew").onclick=()=>newEntry(curTopic);
-function newEntry(topicId,withPhoto){curEntry=null;curTopic=topicId||(topics()[0]||{}).id;if(!curTopic){openTopicSheet(null);return}
-  wPhotos=[];closeSheet(true);openPage("pgWrite",fillWriter);if(withPhoto)setTimeout(()=>$("photoIn").click(),360);else setTimeout(()=>$("writer").focus(),360)}
-function openEntry(id){const e=get("entry."+id,null);if(!e)return;curEntry=id;curTopic=e.topic;wPhotos=[...(e.photos||[])];openPage("pgWrite",fillWriter)}
+function newEntry(topicId){curEntry=null;curTopic=topicId||(topics()[0]||{}).id;if(!curTopic){openTopicSheet(null);return}
+  closeSheet(true);openPage("pgWrite",fillWriter);setTimeout(()=>$("writer").focus(),360)}
+function openEntry(id){const e=get("entry."+id,null);if(!e)return;curEntry=id;curTopic=e.topic;openPage("pgWrite",fillWriter)}
 function fillWriter(){const e=curEntry&&get("entry."+curEntry,null),t=topicOf(curTopic);
   $("wTile").outerHTML=`<span class="tilei" id="wTile" style="--fc:var(--t-${t.color})">${ico(t.icon)}</span>`;$("wTopic").textContent=t.name;$("wBack").textContent=stack.length>1?t.name:"Back";
-  $("wDate").textContent=fmtLong(e?e.date:Date.now());$("writer").value=e?e.text:(get("draft."+curTopic,"")||"");$("wDel").hidden=!e;drawPhotos()}
-function drawPhotos(){$("wPhotos").innerHTML=wPhotos.map(p=>`<div class="p"><img data-ph="${esc(p)}" alt=""><button data-rm="${esc(p)}" aria-label="Remove photo">×</button></div>`).join("")+`<button class="add${wPhotos.length?"":" first"}" id="wAddPh" aria-label="Add photos"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6l1.5-2h4l1.5 2"/></svg></button>`;
-  $("wAddPh").onclick=()=>$("photoIn").click();$("wPhotos").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{wPhotos=wPhotos.filter(x=>x!==b.dataset.rm);drawPhotos()});loadThumbs($("wPhotos"))}
+  $("wDate").textContent=fmtLong(e?e.date:Date.now());$("writer").value=e?e.text:(get("draft."+curTopic,"")||"");$("wDel").hidden=!e}
 $("writer").oninput=()=>{if(!curEntry)put("draft."+curTopic,$("writer").value)};
-$("wSave").onclick=()=>{const v=$("writer").value.replace(/\s+$/,"");if(!v.trim()&&!wPhotos.length){toast("Write something or add a photo first.");return}
+$("wSave").onclick=()=>{const v=$("writer").value.replace(/\s+$/,"");if(!v.trim()){toast("Write something first.");return}
   const e=curEntry?get("entry."+curEntry,{}):{id:uid(),topic:curTopic,date:Date.now()};
-  const removed=(e.photos||[]).filter(p=>!wPhotos.includes(p));e.text=v;e.photos=[...wPhotos];if(curEntry)e.edited=Date.now();put("entry."+e.id,e);
-  removed.forEach(p=>Photos.del(p));if(!curEntry)drop("draft."+curTopic);toast("Saved.");back()};
-$("wDel").onclick=()=>{if(!confirm("Delete this entry? This can't be undone."))return;const e=get("entry."+curEntry,null);if(e)(e.photos||[]).forEach(p=>Photos.del(p));drop("entry."+curEntry);back()};
+  e.text=v;if(curEntry)e.edited=Date.now();put("entry."+e.id,e);
+  if(!curEntry)drop("draft."+curTopic);toast("Saved.");back()};
+$("wDel").onclick=()=>{if(!confirm("Delete this entry? This can't be undone."))return;drop("entry."+curEntry);back()};
 
-/* photos: shrunk on the phone, kept in this device's photo store and in your account */
-const Photos=(()=>{let dbp=null;const db=()=>dbp||(dbp=new Promise((res,rej)=>{const r=indexedDB.open("walk-photos",1);r.onupgradeneeded=()=>r.result.createObjectStore("p");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
-  const tx=async(mode,fn)=>{const d=await db();return new Promise((res,rej)=>{const t=d.transaction("p",mode),s=t.objectStore("p"),r=fn(s);t.oncomplete=()=>res(r&&r.result);t.onerror=()=>rej(t.error)})};
-  return{put:(id,data)=>tx("readwrite",s=>s.put(data,id)),get:async id=>{let v=null;try{v=await tx("readonly",s=>s.get(id))}catch(e){}if(!v&&window.WalkSync&&WalkSync.getPhoto){v=await WalkSync.getPhoto(id);if(v)try{await tx("readwrite",s=>s.put(v,id))}catch(e){}}return v},
-    del:id=>{tx("readwrite",s=>s.delete(id)).catch(()=>{});window.WalkSync&&WalkSync.delPhoto&&WalkSync.delPhoto(id)}}})();
-function shrink(file){return new Promise((res,rej)=>{const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const m=1400,s=Math.min(1,m/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);let q=.72,d=c.toDataURL("image/jpeg",q);while(d.length>700000&&q>.35){q-=.1;d=c.toDataURL("image/jpeg",q)}res(d)};img.onerror=()=>{URL.revokeObjectURL(u);rej()};img.src=u})}
-$("photoIn").onchange=async e=>{const fs=[...(e.target.files||[])];e.target.value="";for(const f of fs){try{const d=await shrink(f),id="ph"+uid();await Photos.put(id,d);window.WalkSync&&WalkSync.putPhoto&&WalkSync.putPhoto(id,d);wPhotos.push(id)}catch(x){toast("That photo couldn't be added.")}}drawPhotos()};
-function loadThumbs(el){el.querySelectorAll("img[data-ph]").forEach(async im=>{const d=await Photos.get(im.dataset.ph);if(d){im.src=d;im.onclick=ev=>{ev.stopPropagation();$("vImg").src=d;$("viewer").classList.add("on")}}})}
-$("vClose").onclick=()=>$("viewer").classList.remove("on");$("viewer").onclick=e=>{if(e.target===$("viewer"))$("viewer").classList.remove("on")};
 
 /* topic sheet */
 let toId=null,toColor="blue",toIcon="book";
@@ -608,39 +565,43 @@ function drawPick(cId,iId,gc,sc,gi,si){$(cId).innerHTML=COLORS.map(c=>`<button d
 $("toSave").onclick=()=>{const n=$("toName").value.trim();if(!n){$("toName").focus();return toast("Give the topic a name.")}
   const t=toId?get("topic."+toId,{}):{id:uid(),created:Date.now(),order:topics().length};t.name=n;t.color=toColor;t.icon=toIcon;put("topic."+t.id,t);closeSheet()};
 $("toDel").onclick=()=>{const es=entries().filter(e=>e.topic===toId);if(!confirm(`Delete this topic and its ${es.length} ${es.length===1?"entry":"entries"}? This can't be undone.`))return;
-  es.forEach(e=>{(e.photos||[]).forEach(p=>Photos.del(p));drop("entry."+e.id)});drop("topic."+toId);closeSheet(true);back();render()};
+  es.forEach(e=>drop("entry."+e.id));drop("topic."+toId);closeSheet(true);back();render()};
 
-/* add sheet */
-function openAdd(){const ts=topics();$("addTopics").innerHTML=ts.map(t=>`<button class="pill" data-t="${esc(t.id)}">${esc(t.name)}</button>`).join("")+`<button class="pill" id="addTopicNew">+ New topic</button>`;
-  $("addTopics").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>newEntry(b.dataset.t));$("addTopicNew").onclick=()=>openTopicSheet(null);openSheet("shAdd")}
-$("addEntry").onclick=()=>newEntry(tab==="journal"&&stack.length?curTopic:null);
-$("addPrayer").onclick=()=>openPrayer(null);
-$("addPhoto").onclick=()=>newEntry(null,true);
 
 /* ---------- habits ---------- */
-let calM=new Date();calM.setDate(1);
-function calendar(el,month,filterId){const y=month.getFullYear(),m=month.getMonth(),first=new Date(y,m,1),start=new Date(first);start.setDate(1-first.getDay());
-  const today=dk(new Date()),fd=fastDays();let h=`<div class="calhead"><b>${month.toLocaleDateString([],{month:"long",year:"numeric"})}</b><div class="nav"><button data-m="-1" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button data-m="1" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button></div></div><div class="grid7">${DOW.map(d=>`<span class="dw">${d}</span>`).join("")}`;
-  for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=dk(d),r=dayRec(k),kept=filterId?r.h.includes(filterId):r.h.length>0,fast=!filterId&&(r.fast==="day"||r.fast==="am");
-    h+=`<div class="day${d.getMonth()!==m?" out":""}${k===today?" today":""}" title="${fmtDay(d)}${kept?", kept":""}${fast?", fasted":""}"><span>${d.getDate()}</span><span class="dots">${kept?"<i></i>":""}${fast?'<i class="f"></i>':""}</span></div>`;
-    if(i===34&&new Date(start.getTime()+35*864e5).getMonth()!==m)break}
-  h+=`</div><div class="legend"><span><i></i>${filterId?"Kept":"A habit kept"}</span>${filterId?"":'<span><i class="f"></i>Fasted</span>'}</div>`;
-  el.innerHTML=h;el.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{month.setMonth(month.getMonth()+(+b.dataset.m));calendar(el,month,filterId)})}
-function rHabits(){calendar($("hCal"),calM);
-  {const k=dk(new Date()),r=dayRec(k),sched=fastDays().includes(new Date().getDay());$("startFast").innerHTML=`${tile("gray","drop","plain")}<div class="tx"><b>${sched?"Today is a fast day":r.fastOn?"Fasting today":"Start a fast today"}</b><span>${sched?"Mark it from Today":r.fastOn?"Tap to cancel today's fast":"For a day not on your fast schedule"}</span></div>`;
-   $("startFast").onclick=()=>{if(sched)return go("today");const r2=dayRec(k);r2.fastOn=!r2.fastOn;if(!r2.fastOn)r2.fast=null;put("day."+k,r2);toast(r2.fastOn?"Fast started. It shows on Today.":"Today's fast removed.");rHabits()}}
-  const hs=habits();$("hList").innerHTML=hs.map(x=>`<button class="row" data-h="${esc(x.id)}">${tile(x.color,x.icon)}<div class="tx"><b>${esc(x.name)}</b><span>${x.days.length===7?"Every day":x.days.length?x.days.map(d=>DOWL[d].slice(0,3)).join(", "):"No days set"}</span></div>${CHEV}</button>`).join("")||`<div class="empty">No habits yet. Tap + to add your first.</div>`;
+// stats: a habit counts on the days it's scheduled, from the day it was created
+const DAY=864e5,mid=d=>{const x=new Date(d);x.setHours(0,0,0,0);return x};
+function stat(h){const today=mid(new Date()),created=mid(h.created||firstUse()),out={};
+  const sched=d=>h.days.includes(d.getDay())&&d>=created,kept=d=>dayRec(dk(d)).h.includes(h.id);
+  let streak=0,d=new Date(today);if(sched(d)&&!kept(d))d=new Date(d-DAY);
+  for(let i=0;i<730;i++){if(d<created)break;if(sched(d)){if(kept(d))streak++;else break}d=new Date(d-DAY)}
+  let best=0,run=0,total=0,s30=0,k30=0,sw=0,kw=0;const wk=new Date(today);wk.setDate(wk.getDate()-wk.getDay());
+  for(let x=new Date(created);x<=today;x=new Date(x.getTime()+DAY)){const sc=sched(x),k=kept(x);if(k)total++;if(sc){if(k){run++;best=Math.max(best,run)}else if(x<today)run=0}
+    if(today-x<30*DAY&&sc&&!(x.getTime()===today.getTime()&&!k)){s30++;if(k)k30++}if(x>=wk&&sc){sw++;if(k)kw++}}
+  return{streak,best,total,pct30:s30?Math.round(k30/s30*100):null,week:[kw,sw]}}
+function firstUse(){const ks=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("walk.day.")===0)ks.push(k.slice(9))}ks.sort();return ks[0]?new Date(ks[0]+"T00:00:00"):new Date()}
+const statCard=(v,l,pct)=>`<div class="stat"><b>${v}</b><span>${l}</span>${pct!=null?`<div class="bar"><i style="width:${pct}%"></i></div>`:""}</div>`;
+function rHabits(){
+  const hs=habits(),now=new Date(),k=dk(now),rec=dayRec(k),todays=hs.filter(h=>h.days.includes(now.getDay())),doneT=todays.filter(h=>rec.h.includes(h.id)).length;
+  const st=hs.map(h=>({h,s:stat(h)}));const wk=st.reduce((a,x)=>[a[0]+x.s.week[0],a[1]+x.s.week[1]],[0,0]);
+  const p30=st.filter(x=>x.s.pct30!=null);const avg30=p30.length?Math.round(p30.reduce((a,x)=>a+x.s.pct30,0)/p30.length):null;
+  const bestNow=st.reduce((a,x)=>x.s.streak>a.s?{s:x.s.streak,n:x.h.name}:a,{s:0,n:""});
+  $("hSub").textContent=hs.length?`${hs.length} ${hs.length===1?"habit":"habits"}`:"";
+  $("hStats").innerHTML=hs.length?statCard(`${doneT}<small>/${todays.length}</small>`,"Done today",todays.length?Math.round(doneT/todays.length*100):0)
+    +statCard(`${wk[1]?Math.round(wk[0]/wk[1]*100):0}<small>%</small>`,"This week",wk[1]?Math.round(wk[0]/wk[1]*100):0)
+    +statCard(avg30==null?"–":`${avg30}<small>%</small>`,"Last 30 days",avg30)
+    +statCard(`${bestNow.s}<small> ${bestNow.s===1?"day":"days"}</small>`,bestNow.s?"Best current streak":"Current streak",null):"";
+  $("hList").innerHTML=st.map(({h,s})=>`<button class="row" data-h="${esc(h.id)}">${tile(h.color,h.icon)}<div class="tx"><b>${esc(h.name)}</b><span>${s.streak} day streak, best ${s.best}, this week ${s.week[0]}/${s.week[1]}</span></div><span class="pct">${s.pct30==null?"–":s.pct30+"%"}</span></button>`).join("")||`<div class="empty">No habits yet. Tap + to add your first.</div>`;
   $("hList").querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>openHabit(b.dataset.h));
-  $("fDays").innerHTML=DOW.map((l,i)=>`<button data-d="${i}" aria-pressed="${fastDays().includes(i)}" aria-label="${DOWL[i]}">${l}</button>`).join("");
-  $("fDays").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{const d=+b.dataset.d,f=fastDays();put("fastDays",f.includes(d)?f.filter(x=>x!==d):[...f,d].sort());rHabits()})}
+}
 let haId=null,haDays=[0,1,2,3,4,5,6],haColor="yellow",haIcon="sun",haM=new Date();
 function openHabit(id){haId=id;const x=id&&habits().find(h=>h.id===id);$("haTitle").textContent=x?"Edit habit":"New habit";$("haName").value=x?x.name:"";haDays=x?[...x.days]:[0,1,2,3,4,5,6];haColor=x?x.color:COLORS[(habits().length+4)%COLORS.length];haIcon=x?x.icon:["sun","book","phone","walk","heart","drop","leaf","moon"][habits().length%8];
-  drawHaDays();drawPick("haColors","haIcons",()=>haColor,c=>haColor=c,()=>haIcon,i=>haIcon=i);$("haDel").hidden=!x;$("haCalBox").hidden=!x;if(x){haM=new Date();haM.setDate(1);calendar($("haCal"),haM,x.id)}
+  drawHaDays();drawPick("haColors","haIcons",()=>haColor,c=>haColor=c,()=>haIcon,i=>haIcon=i);$("haDel").hidden=!x;$("haStatBox").hidden=!x;if(x){const t=stat(x);$("haStats").innerHTML=statCard(`${t.streak}<small> ${t.streak===1?"day":"days"}</small>`,"Current streak",null)+statCard(`${t.best}<small> ${t.best===1?"day":"days"}</small>`,"Best streak",null)+statCard(`${t.week[0]}<small>/${t.week[1]}</small>`,"This week",t.week[1]?Math.round(t.week[0]/t.week[1]*100):0)+statCard(t.pct30==null?"–":`${t.pct30}<small>%</small>`,"Last 30 days",t.pct30)+statCard(t.total,"Times kept",null)}
   openSheet("shHabit");if(!x)setTimeout(()=>$("haName").focus(),320)}
 function drawHaDays(){$("haDays").innerHTML=DOW.map((l,i)=>`<button data-d="${i}" aria-pressed="${haDays.includes(i)}" aria-label="${DOWL[i]}">${l}</button>`).join("");$("haDays").querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{const d=+b.dataset.d;haDays=haDays.includes(d)?haDays.filter(x=>x!==d):[...haDays,d].sort();drawHaDays()})}
 $("hNew").onclick=()=>openHabit(null);
-$("haSave").onclick=()=>{const n=$("haName").value.trim();if(!n){$("haName").focus();return toast("Give the habit a name.")}const hs=habits();let x=hs.find(h=>h.id===haId);if(!x){x={id:uid()};hs.push(x)}x.name=n;x.days=haDays;x.color=haColor;x.icon=haIcon;put("habits",hs);closeSheet()};
-$("haDel").onclick=()=>{if(!confirm("Delete this habit? Days you kept it stay in your calendar."))return;put("habits",habits().filter(h=>h.id!==haId));closeSheet()};
+$("haSave").onclick=()=>{const n=$("haName").value.trim();if(!n){$("haName").focus();return toast("Give the habit a name.")}const hs=habits();let x=hs.find(h=>h.id===haId);if(!x){x={id:uid(),created:Date.now()};hs.push(x)}x.name=n;x.days=haDays;x.color=haColor;x.icon=haIcon;put("habits",hs);closeSheet()};
+$("haDel").onclick=()=>{if(!confirm("Delete this habit? Its history is removed from your stats."))return;put("habits",habits().filter(h=>h.id!==haId));closeSheet()};
 
 /* ---------- settings ---------- */
 function applyTheme(){const t=get("theme","midnight")==="sand"?"sand":"midnight";document.documentElement.dataset.theme=t;$("themeColor").setAttribute("content",t==="sand"?"#F1ECE2":"#18191B");document.querySelectorAll("#themeSeg [data-t]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===t))}
